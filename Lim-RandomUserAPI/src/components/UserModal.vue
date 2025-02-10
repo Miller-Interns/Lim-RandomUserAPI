@@ -1,14 +1,24 @@
 <script setup lang="ts">
-  import { defineProps, defineEmits } from 'vue'
+  import { defineProps, defineEmits, computed } from 'vue'
   import type { User } from '@/types/User'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-  defineProps<{
+  const props = defineProps<{
     user: User | null
     showModal: boolean
   }>()
-  
+
   const emit = defineEmits(['close'])
+
+  const formattedDob = computed(() => {
+    return props.user?.dob.date
+      ? new Date(props.user.dob.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : 'N/A'
+  })
 </script>
 
 <template>
@@ -34,15 +44,7 @@
           <p><strong>Gender:</strong> {{ user?.gender }}</p>
           <p>
             <strong>Date of Birth:</strong>
-            {{
-              user?.dob.date
-                ? new Date(user.dob.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                : 'N/A'
-            }}
+            {{ formattedDob }}
           </p>
           <p><strong>Age:</strong> {{ user?.dob.age }} years old</p>
           <p><strong>Nationality:</strong> {{ user?.nat }}</p>
