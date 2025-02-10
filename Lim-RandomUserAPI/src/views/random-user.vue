@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref, onMounted } from 'vue'
-  import { useFetch } from '@/composables/useFetch'
-  import { usePagination } from '@/composables/usePagination'
-  import { useFilter } from '@/composables/useFilter'
+  import { useFetch } from '@/composables/use-fetch'
+  import { usePagination } from '@/composables/use-pagination'
+  import { useFilter } from '@/composables/use-filter'
   import UserModal from '../components/UserModal.vue'
   import PaginationControls from '../components/PaginationControls.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

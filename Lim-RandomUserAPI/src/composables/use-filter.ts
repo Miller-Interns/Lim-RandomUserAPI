@@ -1,8 +1,8 @@
 import { computed, ref, watch } from 'vue'
-import { GenderFilter } from '@/enums/GenderFilter'
+import { GenderFilter } from '@/enums/gender-filter'
 import type { User } from '@/types/User'
 import { useUserStore } from '@/stores/userStore'
-import { useFetch } from '@/composables/useFetch'
+import { useFetch } from '@/composables/use-fetch'
 
 export function useFilter(users: { value: User[] }) {
   const selectedGender = ref<GenderFilter>(GenderFilter.ALL)

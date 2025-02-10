@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { RouteName } from '@/enums/RouteName'
+import { RouteName } from '@/enums/route-name'
 import RandomUser from '../views/random-user.vue'
 
 const router = createRouter({
