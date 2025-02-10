@@ -20,7 +20,7 @@ export function useFilter(users: { value: User[] }) {
     localStorage.removeItem('randomUsers')
     userStore.users = []
     userStore.loading = true
-    fetchUsers(true)
+    fetchUsers(true, selectedGender.value)
   })
 
   return { selectedGender, filteredUsers, loading: computed(() => userStore.loading) }

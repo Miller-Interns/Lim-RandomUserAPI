@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/userStore'
 export function useFetch() {
   const userStore = useUserStore()
 
-  const fetchUsers = async (refresh: boolean = false) => {
+  const fetchUsers = async (refresh: boolean = false, gender: string = '') => {
     if (!refresh && userStore.users.length > 0) {
       return
     }
@@ -15,7 +15,11 @@ export function useFetch() {
         userStore.users = []
       }
 
-      const response = await fetch(`https://randomuser.me/api/?results=${userStore.totalResults}`)
+      const genderQuery = gender && gender !== 'all' ? `&gender=${gender}` : ''
+
+      const response = await fetch(
+        `https://randomuser.me/api/?results=${userStore.totalResults}${genderQuery}`,
+      )
       const data = await response.json()
 
       if (data.results) {
