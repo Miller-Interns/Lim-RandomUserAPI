@@ -4,7 +4,12 @@ import { useUserStore } from '@/stores/userStore'
 export function useFetch() {
   const userStore = useUserStore()
 
-  const fetchUsers = async (refresh: boolean = false, gender: string = '') => {
+  const fetchUsers = async (
+    page: number,
+    results: number = 10,
+    refresh: boolean = false,
+    gender: string = '',
+  ) => {
     if (!refresh && userStore.users.length > 0) {
       return
     }
@@ -15,11 +20,16 @@ export function useFetch() {
         userStore.users = []
       }
 
-      const genderQuery = gender && gender !== 'all' ? `&gender=${gender}` : ''
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        results: results.toString(),
+      })
 
-      const response = await fetch(
-        `https://randomuser.me/api/?results=${userStore.totalResults}${genderQuery}`,
-      )
+      if (gender && gender !== 'all') {
+        queryParams.append('gender', gender)
+      }
+
+      const response = await fetch(`https://randomuser.me/api/?${queryParams.toString()}`)
       const data = await response.json()
 
       if (data.results) {
@@ -36,5 +46,6 @@ export function useFetch() {
     users: computed(() => userStore.users),
     fetchUsers,
     loading: computed(() => userStore.loading),
+    totalResults: computed(() => userStore.totalResults),
   }
 }

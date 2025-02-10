@@ -3,11 +3,14 @@ import { GenderFilter } from '@/enums/gender-filter'
 import type { User } from '@/types/User'
 import { useUserStore } from '@/stores/userStore'
 import { useFetch } from '@/composables/use-fetch'
+import { usePagination } from '@/composables/use-pagination'
 
 export function useFilter(users: { value: User[] }) {
   const selectedGender = ref<GenderFilter>(GenderFilter.ALL)
   const userStore = useUserStore()
   const { fetchUsers } = useFetch()
+
+  const { currentPage } = usePagination(() => users.value, 10)
 
   const filteredUsers = computed(() => {
     if (selectedGender.value === GenderFilter.ALL) {
@@ -20,7 +23,7 @@ export function useFilter(users: { value: User[] }) {
     localStorage.removeItem('randomUsers')
     userStore.users = []
     userStore.loading = true
-    fetchUsers(true, selectedGender.value)
+    fetchUsers(currentPage.value, userStore.totalResults, true, selectedGender.value)
   })
 
   return { selectedGender, filteredUsers, loading: computed(() => userStore.loading) }

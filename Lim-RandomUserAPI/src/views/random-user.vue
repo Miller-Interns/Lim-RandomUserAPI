@@ -12,7 +12,7 @@
   const showModal = ref(false)
 
   //Fetch API
-  const { users, fetchUsers, loading } = useFetch()
+  const { users, fetchUsers, loading, totalResults } = useFetch()
 
   // Gender Filter
   const { selectedGender, filteredUsers } = useFilter(users)
@@ -22,6 +22,10 @@
     () => filteredUsers.value,
     10,
   )
+
+  const refreshUsers = () => {
+    fetchUsers(currentPage.value, totalResults.value, true, selectedGender.value)
+  }
 
   // Modal functions
   const openModal = (user: User) => {
@@ -35,7 +39,7 @@
   }
 
   onMounted(() => {
-    fetchUsers()
+    fetchUsers(1, totalResults.value, false, selectedGender.value)
   })
 </script>
 
@@ -60,7 +64,7 @@
           </label>
         </div>
       </div>
-      <button class="refresh-btn" @click="fetchUsers(true)">
+      <button class="refresh-btn" @click="refreshUsers">
         <font-awesome-icon :icon="['fas', 'sync-alt']" /> Refresh
       </button>
     </div>
